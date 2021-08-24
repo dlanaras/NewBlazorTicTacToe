@@ -164,10 +164,8 @@ using System.Collections.Generic;
 
             if (!this.AvailablePos().Count.Equals(0))
             {
-                Console.WriteLine("Your turn: \n");
-                this.ListPlayerReadablePositions();
-                Console.WriteLine("\nChoose a position");
-                string chosenPos = Console.ReadLine();
+
+                string chosenPos = 
                 if (!chosenPos.Equals(String.Empty))
                 {
                     int parsedChosenPos;
@@ -265,7 +263,7 @@ using System.Collections.Generic;
 
 
             bool playerStartsFirst = ticTacToePrep.WhoStarts();
-            ticTacToePrep.InformWhoStartsFirst(playerStartsFirst);
+            //ticTacToePrep.InformWhoStartsFirst(playerStartsFirst);
 
             while (FindOutWhoWon().Equals("noone") || this.AvailablePos().Count.Equals(0))
             {

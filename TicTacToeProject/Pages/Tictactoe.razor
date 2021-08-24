@@ -1,3 +1,73 @@
 @page "/tictactoe"
 
-<h1>Ready to tic tac toe?</h1>
+@if (this.PlayerChosenShape.Equals(Shape.None))
+{
+    <h1>Ready to tic tac toe?</h1>
+
+    <p>Then choose a shape</p>
+    <div>
+        <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"
+        alt="Letter X representing cross shape">
+        <button @onclick="ChooseCross">Choose Cross</button>
+    </div>
+    <div>
+        <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Red_Circle_3.png" alt="circle shape">
+        <button @onclick="ChooseCircle">Choose Circle</button>
+    </div>
+}
+else if (this.PlayerChosenShape.Equals(Shape.Cross))
+{
+    <p>Hello,</p>
+    //TODO: Runtime()
+}
+else if (this.PlayerChosenShape.Equals(Shape.Circle))
+{
+    <p>Planet!</p>
+    //TODO: Runtime()
+}
+
+
+@code {
+    private TicTacToe ticTacToe;
+    private Shape playerChosenShape = Shape.None;
+    private Shape aiChosenShape;
+
+    public Shape AiChosenShape
+    {
+        get => this.aiChosenShape;
+
+        set
+        {
+            this.aiChosenShape = value;
+        }
+    }
+
+    public Shape PlayerChosenShape
+    {
+        get => this.playerChosenShape;
+        set
+        {
+            this.playerChosenShape = value;
+        }
+    }
+
+    public void ChooseCross()
+    {
+
+        this.PlayerChosenShape = Shape.Cross;
+        this.AiChosenShape = Shape.Circle;
+        ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
+    }
+
+    public void ChooseCircle()
+    {
+        this.PlayerChosenShape = Shape.Circle;
+        this.AiChosenShape = Shape.Cross;
+        ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
+    }
+
+    public void TicTacToeRunTime()
+    {
+        this.ticTacToe.RunTime();
+    }
+}

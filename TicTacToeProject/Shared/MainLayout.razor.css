@@ -12,6 +12,10 @@
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 
+div.background-Image-Button-X {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png");
+}
+
 .top-row {
     background-color: #f7f7f7;
     border-bottom: 1px solid #d6d5d5;

@@ -23,8 +23,6 @@ using System;
             }
         }
 
-
-
         public bool WhoStarts()
         {
             Random rand = new Random();
@@ -40,15 +38,4 @@ using System;
             }
         }
 
-        public void InformWhoStartsFirst(bool playerStartsFirst)
-        {
-            if (playerStartsFirst)
-            {
-                Console.WriteLine("You start first.\n");
-            }
-            else
-            {
-                Console.WriteLine("The AI starts first.\n");
-            }
-        }
     }
