@@ -15,16 +15,49 @@
         <button @onclick="ChooseCircle">Choose Circle</button>
     </div>
 }
-else if (this.PlayerChosenShape.Equals(Shape.Cross))
+else
 {
-    <p>Hello,</p>
-    <img width="512" src="https://www.publicdomainpictures.net/pictures/260000/velka/tic-tac-toe-1526789164NkQ.jpg" alt="tictactoe board">
+    <div style="position: fixed;">
+        <p>Hello,</p>
+        <img width="512" src="https://www.publicdomainpictures.net/pictures/260000/velka/tic-tac-toe-1526789164NkQ.jpg"
+        alt="tictactoe board">
+        <input @bind="PositionToPlaceShape">
 
-}
-else if (this.PlayerChosenShape.Equals(Shape.Circle))
-{
-    <p>Planet!</p>
-    <img width="512" src="https://www.publicdomainpictures.net/pictures/260000/velka/tic-tac-toe-1526789164NkQ.jpg" alt="tictactoe board">
+        <br>
+        @for (int y = 0; y < 3; y++)
+        {
+
+            for (int x = 0; x < 3; x++)
+            {
+                switch (gameMatrix[y, x])
+                {
+                    case Shape.Cross:
+                        <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png">
+                        break;
+                    case Shape.Circle:
+                        <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Red_Circle_3.png">
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            <br>
+        }
+
+        @if (IsPositionAvailablePlayer())
+        {
+
+        }
+        else
+        {
+            <p>This position isn't available</p>
+        }
+
+
+
+
+    </div>
 }
 
 @code {
@@ -32,7 +65,58 @@ else if (this.PlayerChosenShape.Equals(Shape.Circle))
     private Shape playerChosenShape = Shape.None;
     private Shape aiChosenShape;
 
+    private int saveUserPos;
 
+    private int saveAiPos;
+
+    public Shape[,] GameMatrix
+    {
+        get => this.gameMatrix;
+
+        set
+        {
+            this.gameMatrix = value;
+        }
+    }
+
+    private Shape[,] gameMatrix = new Shape[3, 3]
+    {
+{Shape.None, Shape.None, Shape.None},
+{Shape.None, Shape.None, Shape.None},
+{Shape.None, Shape.None, Shape.None}
+    };
+
+    private int positionToPlaceShape;
+
+    public int PositionToPlaceShape
+    {
+        get => this.positionToPlaceShape;
+
+        set
+        {
+            if (!value.Equals(null))
+            {
+                this.positionToPlaceShape = value;
+            }
+        }
+    }
+
+    private List<int> availablePos;
+
+    public List<int> AvailablePos()
+    {
+        int i = 0;
+        List<int> availableMoves = new List<int>();
+        foreach (Shape shape in gameMatrix)
+        {
+            if (shape.Equals(Shape.None))
+            {
+                availableMoves.Add(i);
+            }
+            i++;
+        }
+        return availableMoves;
+    }
 
     public Shape AiChosenShape
     {
@@ -70,10 +154,54 @@ else if (this.PlayerChosenShape.Equals(Shape.Circle))
 
     private bool playerStartsFirst;
 
+    public bool IsPositionAvailablePlayer()
+    {
+        if (this.AvailablePos().Contains(this.PositionToPlaceShape))
+        {
+            this.saveUserPos = this.PositionToPlaceShape;
+            this.PlaceShapeOnGivenPos(this.playerChosenShape);
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsPositionAvailableAi()
+    {
+        if (this.AvailablePos().Contains(this.PositionToPlaceShape))
+        {
+            this.saveAiPos = this.PositionToPlaceShape;
+            this.PlaceShapeOnGivenPos(this.playerChosenShape);
+            return true;
+        }
+        return false;
+    }
+
+    public void PlaceShapeOnGivenPos(Shape shapeToPlace)
+    {
+
+        if (TicTacToe.WhichRowToPlaceShape(this.PositionToPlaceShape).Equals("first"))
+        {
+            this.GameMatrix[0, this.PositionToPlaceShape] = shapeToPlace;
+        }
+        else if (TicTacToe.WhichRowToPlaceShape(this.PositionToPlaceShape).Equals("second"))
+        {
+            int validSecondRowPos = this.PositionToPlaceShape - 3;
+            this.GameMatrix[1, validSecondRowPos] = shapeToPlace;
+        }
+        else if (TicTacToe.WhichRowToPlaceShape(this.PositionToPlaceShape).Equals("third"))
+        {
+            int validThirdRowPos = this.PositionToPlaceShape - 6;
+            this.GameMatrix[2, validThirdRowPos] = shapeToPlace;
+        }
+
+    }
+
     public void TicTacToeRunTime()
     {
         ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
         this.playerStartsFirst = TicTacToePreparations.WhoStarts();
     }
-    //TODO: create gamematrix, availablepos, saveuserPos and saveaiPos
+    //TODO: availablepos, saveuserPos and saveaiPos after validating that its possible (in this razor file and not
+        //tttplacement)
+
 }

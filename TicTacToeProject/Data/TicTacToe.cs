@@ -91,7 +91,7 @@ using System.Collections.Generic;
                 if (this.AvailablePos().Contains(missingPosForWinOrBlockPlayer))
                 {
                     SaveAiPlacements.Add(missingPosForWinOrBlockPlayer);
-                    this.PlaceShapeAccordingToRow(this.AiChosenShape, missingPosForWinOrBlockPlayer);
+                    //this.PlaceShapeAccordingToRow(this.AiChosenShape, missingPosForWinOrBlockPlayer);
                     return true;
                 }
             }
@@ -108,30 +108,15 @@ using System.Collections.Generic;
                 randMove = rand.Next(0, 8);
             }
             SaveAiPlacements.Add(randMove);
-            this.PlaceShapeAccordingToRow(this.AiChosenShape, randMove);
+            
+            //this.PlaceShapeAccordingToRow(this.AiChosenShape, randMove);
         }
 
 
-        private void PlaceShapeAccordingToRow(Shape shape, int chosenPos)
-        {
-            if (this.WhichRowToPlaceShape(chosenPos).Equals("first"))
-            {
-                this.GameMatrix[0, chosenPos] = shape;
-            }
-            else if (this.WhichRowToPlaceShape(chosenPos).Equals("second"))
-            {
-                int validSecondRowPos = chosenPos - 3;
-                this.GameMatrix[1, validSecondRowPos] = shape;
-            }
-            else if (this.WhichRowToPlaceShape(chosenPos).Equals("third"))
-            {
-                int validThirdRowPos = chosenPos - 6;
-                this.GameMatrix[2, validThirdRowPos] = shape;
-            }
-        }
 
 
-        private string WhichRowToPlaceShape(int chosenPos)
+
+        public static string WhichRowToPlaceShape(int chosenPos)
         {
             if (chosenPos < 3)
             {
@@ -176,7 +161,7 @@ using System.Collections.Generic;
                         if (this.AvailablePos().Contains(parsedChosenPos))
                         {
                             saveUserPlacements.Add(parsedChosenPos);
-                            this.PlaceShapeAccordingToRow(this.PlayerChosenShape, parsedChosenPos);
+                            //this.PlaceShapeAccordingToRow(this.PlayerChosenShape, parsedChosenPos);
                         }
                         else
                         {
