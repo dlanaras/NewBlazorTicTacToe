@@ -20,6 +20,11 @@ a, .btn-link {
     color: rgba(255, 0, 0, 0.5);
 }
 
+.note {
+    font-size: 0.9rem;
+    color:rgba(184, 184, 184, 0.9)
+}
+
 .content {
     padding-top: 1.1rem;
 }
