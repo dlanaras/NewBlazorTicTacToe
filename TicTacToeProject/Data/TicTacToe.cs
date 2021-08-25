@@ -34,7 +34,7 @@ using System.Collections.Generic;
             }
         }
 
-        private Shape[,] gameMatrix = new Shape[3, 3]
+        public Shape[,] gameMatrix = new Shape[3, 3]
         {
             {Shape.None, Shape.None, Shape.None},
             {Shape.None, Shape.None, Shape.None},
@@ -159,13 +159,13 @@ using System.Collections.Generic;
         }
 
 
-        private void PlayerTurn()
+        public void PlayerTurn()
         {
 
             if (!this.AvailablePos().Count.Equals(0))
             {
 
-                string chosenPos = 
+                string chosenPos = Console.ReadLine();
                 if (!chosenPos.Equals(String.Empty))
                 {
                     int parsedChosenPos;
@@ -177,7 +177,6 @@ using System.Collections.Generic;
                         {
                             saveUserPlacements.Add(parsedChosenPos);
                             this.PlaceShapeAccordingToRow(this.PlayerChosenShape, parsedChosenPos);
-                            this.PrintGameMatrix();
                         }
                         else
                         {
@@ -204,7 +203,7 @@ using System.Collections.Generic;
         }
 
 
-        private void AiTurn()
+        public void AiTurn()
         {
 
             if (!this.AvailablePos().Count.Equals(0))
@@ -214,7 +213,6 @@ using System.Collections.Generic;
                 {
                     this.AiDoRandomMove();
                 }
-                this.PrintGameMatrix();
             }
             else
             {
@@ -224,29 +222,7 @@ using System.Collections.Generic;
         }
 
 
-        private void PrintGameMatrix()
-        {
-            for (int y = 0; y < 3; y++)
-            {
-                for (int x = 0; x < 3; x++)
-                {
-                    switch (gameMatrix[y, x])
-                    {
-                        case Shape.Cross:
-                            Console.Write("  X  ");
-                            break;
-                        case Shape.Circle:
-                            Console.Write("  O  ");
-                            break;
-                        case Shape.None:
-                            Console.Write($"  {this.CalculateCurrentPos(x, y)}  ");
-                            break;
-                    }
-                }
-                Console.Write(System.Environment.NewLine);
-                Console.Write(System.Environment.NewLine);
-            }
-        }
+
 
 
         private int CalculateCurrentPos(int x, int y)
@@ -255,46 +231,7 @@ using System.Collections.Generic;
         }
 
 
-        public void RunTime()
-        {
-
-            ticTacToeAiLogic = new TicTacToeAiLogic(this.SaveAiPlacements, this.SaveUserPlacements);
-            ticTacToePrep = new TicTacToePreparations();
-
-
-            bool playerStartsFirst = ticTacToePrep.WhoStarts();
-            //ticTacToePrep.InformWhoStartsFirst(playerStartsFirst);
-
-            while (FindOutWhoWon().Equals("noone") || this.AvailablePos().Count.Equals(0))
-            {
-                if (!this.AvailablePos().Count.Equals(0))
-                {
-                    if (playerStartsFirst)
-                    {
-                        this.PlayerTurn();
-                        this.CheckForEndOfGame();
-                        this.AiTurn();
-                        this.CheckForEndOfGame();
-                    }
-                    else
-                    {
-                        this.AiTurn();
-                        this.CheckForEndOfGame();
-                        this.PlayerTurn();
-                        this.CheckForEndOfGame();
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Game has ended in a tie.");
-                    System.Environment.Exit(0);
-                }
-            }
-            Console.WriteLine("Game has ended in a tie.");
-        }
-
-
-        private void CheckForEndOfGame()
+        public void CheckForEndOfGame()
         {
             if (FindOutWhoWon().Equals("player"))
             {
@@ -368,7 +305,7 @@ using System.Collections.Generic;
             }
         }
 
-        private string FindOutWhoWon()
+        public string FindOutWhoWon()
         {
             string playerWinningDiagonaly = this.CheckForDiagonalGameEnding(SaveUserPlacements, "player");
             string playerWinningHorizontaly = this.CheckForHorizontalGameEnding(SaveUserPlacements, "player");

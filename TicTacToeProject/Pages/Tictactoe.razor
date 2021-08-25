@@ -18,19 +18,21 @@
 else if (this.PlayerChosenShape.Equals(Shape.Cross))
 {
     <p>Hello,</p>
-    //TODO: Runtime()
+    <img width="512" src="https://www.publicdomainpictures.net/pictures/260000/velka/tic-tac-toe-1526789164NkQ.jpg" alt="tictactoe board">
+
 }
 else if (this.PlayerChosenShape.Equals(Shape.Circle))
 {
     <p>Planet!</p>
-    //TODO: Runtime()
+    <img width="512" src="https://www.publicdomainpictures.net/pictures/260000/velka/tic-tac-toe-1526789164NkQ.jpg" alt="tictactoe board">
 }
-
 
 @code {
     private TicTacToe ticTacToe;
     private Shape playerChosenShape = Shape.None;
     private Shape aiChosenShape;
+
+
 
     public Shape AiChosenShape
     {
@@ -56,18 +58,22 @@ else if (this.PlayerChosenShape.Equals(Shape.Circle))
 
         this.PlayerChosenShape = Shape.Cross;
         this.AiChosenShape = Shape.Circle;
-        ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
+        //this.TicTacToeRunTime();
     }
 
     public void ChooseCircle()
     {
         this.PlayerChosenShape = Shape.Circle;
         this.AiChosenShape = Shape.Cross;
-        ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
+        this.TicTacToeRunTime();
     }
+
+    private bool playerStartsFirst;
 
     public void TicTacToeRunTime()
     {
-        this.ticTacToe.RunTime();
+        ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
+        this.playerStartsFirst = TicTacToePreparations.WhoStarts();
     }
+    //TODO: create gamematrix, availablepos, saveuserPos and saveaiPos
 }

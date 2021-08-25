@@ -1,0 +1,39 @@
+@*TODO: contains param of position to place shape for player and ai*@
+
+
+@code {
+    private Shape[,] gameMatrix = new Shape[3,3]
+    {
+        {Shape.None, Shape.None, Shape.None},
+        {Shape.None, Shape.None, Shape.None},
+        {Shape.None, Shape.None, Shape.None}
+    };
+
+    private int positionToPlaceShape;
+
+    private List<int> availablePos;
+
+    [Parameter]
+    public int PositionToPlaceShape
+    {
+        get => this.positionToPlaceShape;
+
+        set 
+        {
+            this.positionToPlaceShape = value;
+        }
+    }
+
+    [Parameter]
+    public List<int> AvailablePos
+    {
+        get => this.availablePos;
+
+        set
+        {
+            this.availablePos = value;
+        }
+    }
+
+
+}
