@@ -27,7 +27,7 @@ else
         <span class="note">
             Also note: you need to press enter or click somewhere on the screen for the confirm button to appear <br>
         Double note: button will only appear if you enter a correct position</span></p>
-        <input @bind="PositionToPlaceShape">
+        <input type="number" min="0" max="8" @bind="PositionToPlaceShape">
         <br>
         <br>
         @for (int y = 0; y < 3; y++)
