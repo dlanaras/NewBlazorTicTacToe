@@ -17,12 +17,14 @@
 }
 else
 {
-    <div style="position: fixed;">
-        <p>Hello,</p>
-        <img width="512" src="https://www.publicdomainpictures.net/pictures/260000/velka/tic-tac-toe-1526789164NkQ.jpg"
-        alt="tictactoe board">
-        <input @bind="PositionToPlaceShape">
 
+    <div style="position: fixed;">
+        @if(!winMessage.Equals(String.Empty))
+        {
+            <p class="winMessage">@winMessage</p>
+        }
+        <p>Pick your poison (Or preferably a position between 1 and 9)</p>
+        <input @bind="PositionToPlaceShape">
         <br>
         @for (int y = 0; y < 3; y++)
         {
@@ -32,12 +34,13 @@ else
                 switch (gameMatrix[y, x])
                 {
                     case Shape.Cross:
-                        <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png">
+                        <img class="shape" width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png">
                         break;
                     case Shape.Circle:
-                        <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Red_Circle_3.png">
+                        <img class="shape" width="64" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Red_Circle_3.png">
                         break;
-                    default:
+                    case Shape.None:
+                        <img class="shape" width="64" src="https://pixy.org/src/474/4742987.jpg">
                         break;
                 }
             }
@@ -45,29 +48,22 @@ else
             <br>
         }
 
-        @if (IsPositionAvailablePlayer())
-        {
-
-        }
-        else
-        {
-            <p>This position isn't available</p>
-        }
-
-
-
+        <button @onclick="TicTacToeRunTime">Confirm</button>
+        <br>
+        <br>
 
     </div>
 }
 
 @code {
+    private string winMessage = String.Empty;
     private TicTacToe ticTacToe;
     private Shape playerChosenShape = Shape.None;
     private Shape aiChosenShape;
 
-    private int saveUserPos;
+    private List<int> saveUserPlacements = new List<int>();
 
-    private int saveAiPos;
+    private List<int> saveAiPlacements = new List<int>();
 
     public Shape[,] GameMatrix
     {
@@ -86,7 +82,7 @@ else
 {Shape.None, Shape.None, Shape.None}
     };
 
-    private int positionToPlaceShape;
+    private int positionToPlaceShape = 10;
 
     public int PositionToPlaceShape
     {
@@ -100,8 +96,6 @@ else
             }
         }
     }
-
-    private List<int> availablePos;
 
     public List<int> AvailablePos()
     {
@@ -142,14 +136,12 @@ else
 
         this.PlayerChosenShape = Shape.Cross;
         this.AiChosenShape = Shape.Circle;
-        //this.TicTacToeRunTime();
     }
 
     public void ChooseCircle()
     {
         this.PlayerChosenShape = Shape.Circle;
         this.AiChosenShape = Shape.Cross;
-        this.TicTacToeRunTime();
     }
 
     private bool playerStartsFirst;
@@ -158,7 +150,7 @@ else
     {
         if (this.AvailablePos().Contains(this.PositionToPlaceShape))
         {
-            this.saveUserPos = this.PositionToPlaceShape;
+            this.saveUserPlacements.Add(this.PositionToPlaceShape);
             this.PlaceShapeOnGivenPos(this.playerChosenShape);
             return true;
         }
@@ -169,7 +161,7 @@ else
     {
         if (this.AvailablePos().Contains(this.PositionToPlaceShape))
         {
-            this.saveAiPos = this.PositionToPlaceShape;
+            this.saveAiPlacements.Add(this.PositionToPlaceShape);
             this.PlaceShapeOnGivenPos(this.playerChosenShape);
             return true;
         }
@@ -196,12 +188,171 @@ else
 
     }
 
+    private bool AiPlaceIfWinPosIsFree()
+    {
+        TicTacToeAiLogic ticTacToeAiLogic = new TicTacToeAiLogic(this.saveAiPlacements, this.saveUserPlacements);
+        List<int> missingPositionsForWinOrBlockPlayer = ticTacToeAiLogic.AiPlacingProcess();
+        foreach (int missingPosForWinOrBlockPlayer in missingPositionsForWinOrBlockPlayer)
+        {
+            if (this.AvailablePos().Contains(missingPosForWinOrBlockPlayer))
+            {
+                this.PositionToPlaceShape = missingPosForWinOrBlockPlayer;
+                saveAiPlacements.Add(missingPosForWinOrBlockPlayer);
+                this.PlaceShapeOnGivenPos(this.AiChosenShape);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private void AiDoRandomMove()
+    {
+        Random rand = new Random();
+        int randMove = rand.Next(0, 8);
+        while (!this.AvailablePos().Contains(randMove))
+        {
+            randMove = rand.Next(0, 8);
+        }
+        saveAiPlacements.Add(randMove);
+
+
+        //this.PlaceShapeAccordingToRow(this.AiChosenShape, randMove);
+    }
+
     public void TicTacToeRunTime()
     {
-        ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
-        this.playerStartsFirst = TicTacToePreparations.WhoStarts();
+        if (FindOutWhoWon().Equals("noone") || this.AvailablePos().Count.Equals(0))
+        {
+            if (!this.AvailablePos().Count.Equals(0))
+            {
+
+                    this.PlayerTurn();
+                    this.CheckForEndOfGame();
+                    this.AiTurn();
+                    this.CheckForEndOfGame();
+                
+            
+            }
+        }
     }
-    //TODO: availablepos, saveuserPos and saveaiPos after validating that its possible (in this razor file and not
-        //tttplacement)
+
+
+
+    private void AiTurn()
+    {
+        if (!this.AiPlaceIfWinPosIsFree())
+        {
+            this.AiDoRandomMove();
+        }
+        //this.IsPositionAvailableAi();
+    }
+
+    private void PlayerTurn()
+    {
+        this.IsPositionAvailablePlayer();
+    }
+
+
+
+    /*
+    ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
+    this.playerStartsFirst = TicTacToePreparations.WhoStarts();
+    */
+
+
+
+    public string FindOutWhoWon()
+    {
+        string playerWinningDiagonaly = this.CheckForDiagonalGameEnding(saveUserPlacements, "player");
+        string playerWinningHorizontaly = this.CheckForHorizontalGameEnding(saveUserPlacements, "player");
+        string playerWinningVertically = this.CheckForVerticalGameEnding(saveUserPlacements, "player");
+
+        string aiWinningDiagonaly = this.CheckForDiagonalGameEnding(saveAiPlacements, "ai");
+        string aiWinningHorizontaly = this.CheckForHorizontalGameEnding(saveAiPlacements, "ai");
+        string aiWinningVertically = this.CheckForVerticalGameEnding(saveAiPlacements, "ai");
+
+        if (playerWinningDiagonaly.Equals("player") || playerWinningHorizontaly.Equals("player") ||
+        playerWinningVertically.Equals("player"))
+        {
+            return "player";
+        }
+        else if (aiWinningDiagonaly.Equals("ai") || aiWinningHorizontaly.Equals("ai") || aiWinningVertically.Equals("ai"))
+        {
+            return "ai";
+        }
+        else
+        {
+            return "noone";
+        }
+    }
+
+    public void CheckForEndOfGame()
+    {
+        if (FindOutWhoWon().Equals("player"))
+        {
+            Console.WriteLine("You won!");
+        }
+        else if (FindOutWhoWon().Equals("ai"))
+        {
+            Console.WriteLine("The AI Won");
+        }
+    }
+
+    private string CheckForVerticalGameEnding(List<int> placements, string whoMadePlacements)
+    {
+        if (placements.Contains(2) && placements.Contains(5) && placements.Contains(8))
+        {
+            return whoMadePlacements;
+        }
+        else if (placements.Contains(1) && placements.Contains(4) && placements.Contains(7))
+        {
+            return whoMadePlacements;
+        }
+        else if (placements.Contains(0) && placements.Contains(3) && placements.Contains(6))
+        {
+            return whoMadePlacements;
+        }
+        else
+        {
+            return "noone";
+        }
+    }
+
+    private string CheckForHorizontalGameEnding(List<int> placements, string whoMadePlacements)
+    {
+        if (placements.Contains(0) && placements.Contains(1) && placements.Contains(2))
+        {
+            return whoMadePlacements;
+        }
+        else if (placements.Contains(3) && placements.Contains(4) && placements.Contains(5))
+        {
+            return whoMadePlacements;
+        }
+        else if (placements.Contains(6) && placements.Contains(7) && placements.Contains(8))
+        {
+            return whoMadePlacements;
+        }
+        else
+        {
+            return "noone";
+        }
+    }
+
+    private string CheckForDiagonalGameEnding(List<int> placements, string whoMadePlacements)
+    {
+        if (placements.Contains(0) && placements.Contains(4) && placements.Contains(8))
+        {
+            return whoMadePlacements;
+        }
+        else if (placements.Contains(6) && placements.Contains(4) && placements.Contains(2))
+        {
+            return whoMadePlacements;
+        }
+        else
+        {
+            return "noone";
+        }
+    }
 
 }

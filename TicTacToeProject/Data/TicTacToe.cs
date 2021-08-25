@@ -83,7 +83,10 @@ using System.Collections.Generic;
         }
 
 
-        private bool AiPlaceIfWinPosIsFree()
+
+
+
+            private bool AiPlaceIfWinPosIsFree()
         {
             List<int> missingPositionsForWinOrBlockPlayer = ticTacToeAiLogic.AiPlacingProcess();
             foreach (int missingPosForWinOrBlockPlayer in missingPositionsForWinOrBlockPlayer)
@@ -111,6 +114,7 @@ using System.Collections.Generic;
             
             //this.PlaceShapeAccordingToRow(this.AiChosenShape, randMove);
         }
+        
 
 
 
@@ -216,101 +220,11 @@ using System.Collections.Generic;
         }
 
 
-        public void CheckForEndOfGame()
-        {
-            if (FindOutWhoWon().Equals("player"))
-            {
-                Console.WriteLine("You won!");
-                System.Environment.Exit(0);
-            }
-            else if (FindOutWhoWon().Equals("ai"))
-            {
-                Console.WriteLine("The AI Won");
-                System.Environment.Exit(0);
-            }
-        }
 
 
 
 
 
-        private string CheckForVerticalGameEnding(List<int> placements, string whoMadePlacements)
-        {
-            if (placements.Contains(2) && placements.Contains(5) && placements.Contains(8))
-            {
-                return whoMadePlacements;
-            }
-            else if (placements.Contains(1) && placements.Contains(4) && placements.Contains(7))
-            {
-                return whoMadePlacements;
-            }
-            else if (placements.Contains(0) && placements.Contains(3) && placements.Contains(6))
-            {
-                return whoMadePlacements;
-            }
-            else
-            {
-                return "noone";
-            }
-        }
 
-        private string CheckForHorizontalGameEnding(List<int> placements, string whoMadePlacements)
-        {
-            if (placements.Contains(0) && placements.Contains(1) && placements.Contains(2))
-            {
-                return whoMadePlacements;
-            }
-            else if (placements.Contains(3) && placements.Contains(4) && placements.Contains(5))
-            {
-                return whoMadePlacements;
-            }
-            else if (placements.Contains(6) && placements.Contains(7) && placements.Contains(8))
-            {
-                return whoMadePlacements;
-            }
-            else
-            {
-                return "noone";
-            }
-        }
 
-        private string CheckForDiagonalGameEnding(List<int> placements, string whoMadePlacements)
-        {
-            if (placements.Contains(0) && placements.Contains(4) && placements.Contains(8))
-            {
-                return whoMadePlacements;
-            }
-            else if (placements.Contains(6) && placements.Contains(4) && placements.Contains(2))
-            {
-                return whoMadePlacements;
-            }
-            else
-            {
-                return "noone";
-            }
-        }
-
-        public string FindOutWhoWon()
-        {
-            string playerWinningDiagonaly = this.CheckForDiagonalGameEnding(SaveUserPlacements, "player");
-            string playerWinningHorizontaly = this.CheckForHorizontalGameEnding(SaveUserPlacements, "player");
-            string playerWinningVertically = this.CheckForVerticalGameEnding(SaveUserPlacements, "player");
-
-            string aiWinningDiagonaly = this.CheckForDiagonalGameEnding(SaveAiPlacements, "ai");
-            string aiWinningHorizontaly = this.CheckForHorizontalGameEnding(SaveAiPlacements, "ai");
-            string aiWinningVertically = this.CheckForVerticalGameEnding(SaveAiPlacements, "ai");
-
-            if (playerWinningDiagonaly.Equals("player") || playerWinningHorizontaly.Equals("player") || playerWinningVertically.Equals("player"))
-            {
-                return "player";
-            }
-            else if (aiWinningDiagonaly.Equals("ai") || aiWinningHorizontaly.Equals("ai") || aiWinningVertically.Equals("ai"))
-            {
-                return "ai";
-            }
-            else
-            {
-                return "noone";
-            }
-        }
     }
