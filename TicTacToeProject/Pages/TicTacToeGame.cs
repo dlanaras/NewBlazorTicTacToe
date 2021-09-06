@@ -122,20 +122,6 @@ public class TicTacToeGame
         }
     }
 
-    public void ChooseCross()
-    {
-
-        this.PlayerChosenShape = Shape.Cross;
-        this.AiChosenShape = Shape.Circle;
-    }
-
-    public void ChooseCircle()
-    {
-        this.PlayerChosenShape = Shape.Circle;
-        this.AiChosenShape = Shape.Cross;
-    }
-
-
     public bool IsPositionAvailablePlayer()
     {
         if (this.AvailablePos().Contains(this.PositionToPlaceShape))

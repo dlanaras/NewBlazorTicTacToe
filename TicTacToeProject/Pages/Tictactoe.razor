@@ -1,10 +1,8 @@
 @page "/tictactoe"
 @inject NavigationManager uriHelper;
 
-@code {
-    TicTacToeGame tictactoe = new TicTacToeGame();
-    //IMPORTANT: @CODE only runs on init or by calling a function inside it 
-}
+
+
 
 @if (tictactoe.PlayerChosenShape.Equals(Shape.None))
 {
@@ -15,11 +13,11 @@
     <div>
         <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"
         alt="Letter X representing cross shape">
-        <button class="btn-primary" @onclick="tictactoe.ChooseCross">Choose Cross</button>
+        <button class="btn-primary" @onclick="ChooseCross">Choose Cross</button>
     </div>
     <div>
         <img width="64" src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png" alt="circle shape">
-        <button class="btn-primary" @onclick="tictactoe.ChooseCircle">Choose Circle</button>
+        <button class="btn-primary" @onclick="ChooseCircle">Choose Circle</button>
     </div>
 
     bool playerStarts = tictactoe.WhoStarts();
@@ -35,41 +33,15 @@
 else
 {
     <div style="position: fixed;">
-        @if (!tictactoe.WinMessage.Equals(String.Empty))
+        @if (!WinMessage.Equals(String.Empty))
         {
-            <p class="winMessage">@tictactoe.WinMessage</p>
+            <p class="winMessage">@WinMessage</p>
         }
         <p>Click on one of the squares and then click on the confirm button</p> <br>
 
-        @for (int y = 0; y < 3; y++)
-        {
-
-            for (int x = 0; x < 3; x++)
-            {
-                switch (tictactoe.GameMatrix[y, x])
-                {
-                    case Shape.Cross:
-                        <button class="equalButton" disabled><img class="shape" width="64"
-            src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"></button>
-                        break;
-                    case Shape.Circle:
-                        <button class="equalButton" disabled><img class="shape" width="64"
-            src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png"></button>
-                        break;
-                    case Shape.None:
-                        var i = x;
-                        var j = y;
-                        @*Vars above are needed since the lambda function below only uses the last index of x and y instead of the current
-                            one (3, 3) instead of (0, 0), (0, 1), (0, 2)...*@
-                        int currentPos = j * 3 + i;
-                        <button class="equalButton" @onclick="@(() => tictactoe.SetGivenPos(@currentPos))"><img class="shape" width="64"
-            src="https://pixy.org/src/474/thumbs350/4742987.jpg"></button>
-                        break;
-                }
-            }
-
-            <br>
-        }
+        <PrintGameMatrix 
+        GameMatrix="@GameMatrix"
+        />
 
         @if (tictactoe.IsPositionAvailablePlayer())
         {
@@ -82,9 +54,4 @@ else
     </div>
 }
 
-@code{
-    public void RefreshPage()
-    {
-        uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
-    }
-}
+
