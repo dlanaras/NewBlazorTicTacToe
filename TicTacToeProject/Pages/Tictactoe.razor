@@ -1,5 +1,4 @@
 @page "/tictactoe"
-using TicTacToeGame
 @inject NavigationManager uriHelper;
 
 @code {
@@ -9,6 +8,7 @@ using TicTacToeGame
 
 @if (tictactoe.PlayerChosenShape.Equals(Shape.None))
 {
+
     <h1>Ready to tic tac toe?</h1>
 
     <p>Then choose a shape</p>
@@ -21,6 +21,16 @@ using TicTacToeGame
         <img width="64" src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png" alt="circle shape">
         <button class="btn-primary" @onclick="tictactoe.ChooseCircle">Choose Circle</button>
     </div>
+
+    bool playerStarts = tictactoe.WhoStarts();
+    tictactoe.PlayerStarts = playerStarts;
+    if(playerStarts)
+    {
+        <p>You will start first</p>
+    } else
+    {
+        <p>The AI will start first</p>
+    }
 }
 else
 {

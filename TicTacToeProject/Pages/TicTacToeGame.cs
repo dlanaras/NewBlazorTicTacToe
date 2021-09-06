@@ -14,6 +14,18 @@ public class TicTacToeGame
 
     private List<int> saveAiPlacements = new List<int>();
 
+    private bool playerStarts;
+
+    public bool PlayerStarts 
+    {
+        get => this.playerStarts;
+
+        set 
+        {
+            this.playerStarts = value;
+        }
+    }
+
     public string WinMessage
     {
         get => this.winMessage;
