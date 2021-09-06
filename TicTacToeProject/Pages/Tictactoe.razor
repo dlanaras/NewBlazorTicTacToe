@@ -1,5 +1,6 @@
 @page "/tictactoe"
 using TicTacToeGame
+@inject NavigationManager uriHelper;
 
 @code {
     TicTacToeGame tictactoe = new TicTacToeGame();
@@ -64,7 +65,16 @@ else
         {
             <button class="btn-primary" @onclick="tictactoe.TicTacToeRunTime">Confirm</button>
         } 
-
+        <br>
+        <br>
         <a href="../"><button class="btn btn-danger">Go Back</button></a>
+        <button class="btn btn-danger" @onclick="RefreshPage">Play Again</button>
     </div>
+}
+
+@code{
+    public void RefreshPage()
+    {
+        uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+    }
 }
