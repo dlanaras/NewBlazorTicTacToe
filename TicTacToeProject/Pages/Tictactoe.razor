@@ -1,5 +1,6 @@
 @page "/tictactoe"
 
+
 @if (this.PlayerChosenShape.Equals(Shape.None))
 {
     <h1>Ready to tic tac toe?</h1>
@@ -8,28 +9,22 @@
     <div>
         <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"
         alt="Letter X representing cross shape">
-        <button @onclick="ChooseCross">Choose Cross</button>
+        <button class="btn-primary" @onclick="ChooseCross">Choose Cross</button>
     </div>
     <div>
-        <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Red_Circle_3.png" alt="circle shape">
-        <button @onclick="ChooseCircle">Choose Circle</button>
+        <img width="64" src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png" alt="circle shape">
+        <button class="btn-primary" @onclick="ChooseCircle">Choose Circle</button>
     </div>
 }
 else
 {
-
     <div style="position: fixed;">
         @if (!winMessage.Equals(String.Empty))
         {
             <p class="winMessage">@winMessage</p>
         }
-        <p>Pick your poison (Or preferably a position between 0 and 8) <br> 
-        <span class="note">
-            Also note: you need to press enter or click somewhere on the screen for the confirm button to appear <br>
-        Double note: button will only appear if you enter a correct position</span></p>
-        <input type="number" min="0" max="8" @bind="PositionToPlaceShape">
-        <br>
-        <br>
+        <p>Click on one of the squares and then click on the confirm button</p> <br>
+
         @for (int y = 0; y < 3; y++)
         {
 
@@ -38,13 +33,21 @@ else
                 switch (gameMatrix[y, x])
                 {
                     case Shape.Cross:
-                        <img class="shape" width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png">
+                        <button class="equalButton" disabled><img class="shape" width="64"
+            src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"></button>
                         break;
                     case Shape.Circle:
-                        <img class="shape" width="64" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Red_Circle_3.png">
+                        <button class="equalButton" disabled><img class="shape" width="64"
+            src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png"></button>
                         break;
                     case Shape.None:
-                        <img class="shape" width="64" src="https://pixy.org/src/474/4742987.jpg">
+                        var i = x;
+                        var j = y;
+                        @*Vars above are needed since the lambda function below only uses the last index of x and y instead of the current
+                            one (3, 3) instead of (0, 0), (0, 1), (0, 2)...*@
+                        int currentPos = j * 3 + i;
+                        <button class="equalButton" @onclick="@(() => SetGivenPos(@currentPos))"><img class="shape" width="64"
+            src="https://pixy.org/src/474/thumbs350/4742987.jpg"></button>
                         break;
                 }
             }
@@ -54,11 +57,10 @@ else
 
         @if (IsPositionAvailablePlayer())
         {
-            <button @onclick="TicTacToeRunTime">Confirm</button>
-        }
-        <br>
-        <br>
+            <button class="btn-primary" @onclick="TicTacToeRunTime">Confirm</button>
+        } 
 
+        <a href="../"><button class="btn btn-danger">Go Back</button></a>
     </div>
 }
 
@@ -90,7 +92,7 @@ else
 {Shape.None, Shape.None, Shape.None}
     };
 
-    private int positionToPlaceShape = 10;
+    private int positionToPlaceShape = 9;
 
     public int PositionToPlaceShape
     {
@@ -121,19 +123,23 @@ else
     }
 
 
-        public bool WhoStarts()
+    public void SetGivenPos(int givenPos) {
+        this.PositionToPlaceShape = givenPos; 
+    }
+
+    public bool WhoStarts()
+    {
+        Random rand = new Random();
+        double decider = rand.NextDouble();
+        if (decider > 0.5)
         {
-            Random rand = new Random();
-            double decider = rand.NextDouble();
-            if (decider > 0.5)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
+        else
+        {
+            return false;
+        }
+    }
 
     public Shape AiChosenShape
     {
@@ -167,7 +173,6 @@ else
         this.AiChosenShape = Shape.Cross;
     }
 
-    private bool playerStartsFirst;
 
     public bool IsPositionAvailablePlayer()
     {
@@ -178,22 +183,22 @@ else
         return false;
     }
 
-        private string WhichRowToPlaceShape(int chosenPos)
+    private string WhichRowToPlaceShape(int chosenPos)
+    {
+        if (chosenPos < 3)
         {
-            if (chosenPos < 3)
-            {
-                return "first";
-            }
-            else if (chosenPos > 2 && chosenPos < 6)
-            {
-                return "second";
-            }
-            else if (chosenPos <= 8 && chosenPos > 5)
-            {
-                return "third";
-            }
-            return String.Empty;
+            return "first";
         }
+        else if (chosenPos > 2 && chosenPos < 6)
+        {
+            return "second";
+        }
+        else if (chosenPos <= 8 && chosenPos > 5)
+        {
+            return "third";
+        }
+        return String.Empty;
+    }
 
     public void PlaceShapeOnGivenPos(Shape shapeToPlace)
     {
@@ -258,13 +263,15 @@ else
         {
             if (!this.AvailablePos().Count.Equals(0))
             {
-                this.PlayerTurn();
-                this.CheckForEndOfGame();
-                this.AiTurn();
-                this.CheckForEndOfGame();
-
-
+                    this.PlayerTurn();
+                    this.CheckForEndOfGame();
+                    if (FindOutWhoWon().Equals("noone"))
+                    {
+                        this.AiTurn();
+                        this.CheckForEndOfGame();
+                    }
             }
+
         }
     }
 
@@ -272,27 +279,35 @@ else
 
     private void AiTurn()
     {
-        if (!this.AiPlaceIfWinPosIsFree())
+        if (!this.AvailablePos().Count.Equals(0))
         {
-            this.AiDoRandomMove();
+            if (!this.AiPlaceIfWinPosIsFree())
+            {
+                this.AiDoRandomMove();
+            }
+        }
+        else
+        {
+            winMessage = "Game ended in a tie 👔";
         }
     }
 
     private void PlayerTurn()
     {
-        if (this.IsPositionAvailablePlayer())
+        if (!this.AvailablePos().Count.Equals(0))
         {
-            this.saveUserPlacements.Add(this.PositionToPlaceShape);
-            this.PlaceShapeOnGivenPos(this.playerChosenShape);
+            if (this.IsPositionAvailablePlayer())
+            {
+                this.saveUserPlacements.Add(this.PositionToPlaceShape);
+                this.PlaceShapeOnGivenPos(this.playerChosenShape);
+            }
+        }
+        else
+        {
+            winMessage = "Game ended in a tie 👔";
         }
     }
 
-
-
-    /*
-    ticTacToe = new TicTacToe(this.PlayerChosenShape, this.AiChosenShape);
-    this.playerStartsFirst = TicTacToePreparations.WhoStarts();
-    */
 
 
 
