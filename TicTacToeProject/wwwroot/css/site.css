@@ -39,6 +39,17 @@ input {
     padding: 10px;
 }
 
+.center {
+    position: relative;
+}
+
+.centerer .toBeCentered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .note {
     font-size: 0.9rem;
     color:rgba(184, 184, 184, 0.9)

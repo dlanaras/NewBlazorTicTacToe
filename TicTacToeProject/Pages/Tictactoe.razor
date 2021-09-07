@@ -1,77 +1,83 @@
-@page "/tictactoe"
+@page "/tictactoe";
 @inject NavigationManager uriHelper;
 
-
-
-
-@if (tictactoe.PlayerChosenShape.Equals(Shape.None))
-{
-
-    <h1>Ready to tic tac toe?</h1>
-
-    <p>Then choose a shape</p>
-    <div>
-        <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"
-        alt="Letter X representing cross shape">
-        <button class="btn-primary" @onclick="ChooseCross">Choose Cross</button>
-    </div>
-    <div>
-        <img width="64" src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png" alt="circle shape">
-        <button class="btn-primary" @onclick="ChooseCircle">Choose Circle</button>
-    </div>
-}
-else
-{
-    <div style="position: fixed;">
-        @if (!WinMessage.Equals(String.Empty))
+<div class="centerer">
+    <div class="toBeCentered">
+        @if (tictactoe.PlayerChosenShape.Equals(Shape.None))
         {
-            <p class="winMessage">@WinMessage</p>
+
+            <h1>Ready to tic tac toe?</h1>
+
+            <p>Then choose a shape</p>
+            <div>
+                <img width="64" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"
+                alt="Letter X representing cross shape">
+                <button class="btn-primary" @onclick="ChooseCross">Choose Cross</button>
+            </div>
+            <div>
+                <img width="64" src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png" alt="circle shape">
+                <button class="btn-primary" @onclick="ChooseCircle">Choose Circle</button>
+            </div>
         }
-
-
-
-        @if (!gameHasStarted){
-            <button class="btn btn-primary" @onclick="StartGame">Start Game</button>
-        } else {
-            @for (int y = 0; y < 3; y++)
-            {
-
-                for (int x = 0; x < 3; x++)
+        else
+        {
+            <div style="position: fixed;">
+                @if (!WinMessage.Equals(String.Empty))
                 {
-                    switch (GameMatrix[y, x])
+
+                        <p class="alert alert-success">@WinMessage</p>
+
+                    
+                }
+
+
+
+                @if (!gameHasStarted){
+                    <button class="btn btn-primary" @onclick="StartGame">Start Game</button>
+                } else {
+                    @for (int y = 0; y < 3; y++)
                     {
-                        case Shape.Cross:
-                            <button class="equalButton" disabled><img class="shape" width="64"
-                src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"></button>
-                            break;
-                        case Shape.Circle:
-                            <button class="equalButton" disabled><img class="shape" width="64"
-                src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png"></button>
-                            break;
-                        case Shape.None:
-                            var i = x;
-                            var j = y;
-                            @*Vars above are needed since the lambda function below only uses the last index of x and y instead of the current
-                                one (3, 3) instead of (0, 0), (0, 1), (0, 2)...*@
-                            int currentPos = j * 3 + i;
-                            <button class="equalButton" @onclick="@(() => SetGivenPos(@currentPos))"><img class="shape" width="64"
-                src="https://pixy.org/src/474/thumbs350/4742987.jpg"></button>
-                            break;
+
+                        for (int x = 0; x < 3; x++)
+                        {
+                            switch (GameMatrix[y, x])
+                            {
+                                case Shape.Cross:
+                                    <button class="equalButton" disabled><img class="shape" width="64"
+                        src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"></button>
+                                    break;
+                                case Shape.Circle:
+                                    <button class="equalButton" disabled><img class="shape" width="64"
+                        src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png"></button>
+                                    break;
+                                case Shape.None:
+                                    var i = x;
+                                    var j = y;
+                                    @*Vars above are needed since the lambda function below only uses the last index of x and y instead of the current
+                                        one (3, 3) instead of (0, 0), (0, 1), (0, 2)...*@
+                                    int currentPos = j * 3 + i;
+                                    <button class="equalButton" @onclick="@(() => SetGivenPos(@currentPos))"><img class="shape" width="64" height="64"
+                        src="https://www.publicdomainpictures.net/pictures/40000/velka/white-paper-background.jpg"></button>
+                                    break;
+                            }
+                        }
+
+                        <br>
                     }
                 }
 
                 <br>
-            }
+
+                @if (tictactoe.IsPositionAvailablePlayer() && gameHasStarted)
+                {
+                    <button class="btn-primary" @onclick="NextTurn">Confirm</button>
+                } 
+
+                <br>
+                <br>
+                <a href="../" @onclick="SetLocalStorage"><button class="btn btn-warning">Go Back</button></a>
+                <button class="btn btn-danger" @onclick="RefreshPage">Play Again</button>
+            </div>
         }
-
-        @if (tictactoe.IsPositionAvailablePlayer() && gameHasStarted)
-        {
-            <button class="btn-primary" @onclick="NextTurn">Confirm</button>
-        } 
-
-        <br>
-        <br>
-        <a href="../"><button class="btn btn-danger">Go Back</button></a>
-        <button class="btn btn-danger" @onclick="RefreshPage">Play Again</button>
     </div>
-}
+</div>

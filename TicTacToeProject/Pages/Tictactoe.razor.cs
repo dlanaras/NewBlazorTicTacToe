@@ -49,6 +49,10 @@ namespace TicTacToeProject.Pages
             uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
         }
 
+        public void SetLocalStorage()
+        {
+            
+        }
 
         protected override void OnInitialized()
         {
@@ -88,6 +92,7 @@ namespace TicTacToeProject.Pages
         {
             tictactoe.TicTacToeRunTime();
         }
+
     }
 
 }

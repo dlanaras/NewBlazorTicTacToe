@@ -226,10 +226,9 @@ public class TicTacToeGame
         }
         else if (this.AvailablePos().Count.Equals(0))
         {
-            Console.WriteLine("(Main) availablepos = 0");
             this.WinMessage = "Game ended in a tie 👔";
         }
-        Console.Write("Game ended");
+
     }
 
 
@@ -245,7 +244,6 @@ public class TicTacToeGame
         }
         else
         {
-            Console.WriteLine("(Ai) availablepos = 0");
             this.WinMessage = "Game ended in a tie 👔";
         }
     }
@@ -262,7 +260,6 @@ public class TicTacToeGame
         }
         else
         {
-            Console.WriteLine("(Player) availablepos = 0");
             this.WinMessage = "Game ended in a tie 👔";
         }
     }
