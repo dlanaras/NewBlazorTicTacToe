@@ -3,6 +3,22 @@ using System;
 
 public class TicTacToeGame
 {
+
+    public TicTacToeGame()
+    {
+
+    }
+
+    public TicTacToeGame(bool playerHasPlacedAShape, Shape playerChosenShape, Shape aiChosenShape, List<int> saveUserPlacements, List<int> saveAiPlacements, Shape[,] gameMatrix)
+    {
+        this.playerHasPlacedAShape = playerHasPlacedAShape;
+        this.playerChosenShape = playerChosenShape;
+        this.aiChosenShape = aiChosenShape;
+        this.saveUserPlacements = saveUserPlacements;
+        this.saveAiPlacements = saveAiPlacements;
+        this.GameMatrix = gameMatrix;
+    }
+
     private string winMessage = String.Empty;
 
     private bool playerHasPlacedAShape = false;
@@ -15,6 +31,27 @@ public class TicTacToeGame
     private List<int> saveAiPlacements = new List<int>();
 
     private bool playerStarts;
+
+
+    public List<int> SaveAiPlacements
+    {
+        get => this.saveAiPlacements;
+
+        set
+        {
+            this.saveAiPlacements = value;
+        }
+    }
+
+        public List<int> SaveUserPlacements
+    {
+        get => this.saveUserPlacements;
+
+        set
+        {
+            this.SaveUserPlacements = value;
+        }
+    }
 
     public bool PlayerHasPlacedAShape
     {

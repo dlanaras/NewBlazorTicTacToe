@@ -29,6 +29,7 @@ namespace TicTacToeProject
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<ScoreTrackerService>();
+            services.AddSingleton<GameStateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

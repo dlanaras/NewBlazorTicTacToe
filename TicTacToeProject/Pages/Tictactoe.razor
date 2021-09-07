@@ -1,9 +1,11 @@
 @page "/tictactoe";
 @inject NavigationManager uriHelper;
 @inject ScoreTrackerService ScoreTrackerService;
+@inject GameStateService GameStateService;
 
 <div class="centerer">
     <div class="toBeCentered">
+        @*TODO: Check if there is an unfinished game and then ask user to resume it or start a new one and discard the old one (to display it check if object is null or not)*@
 
         @if (tictactoe.PlayerChosenShape.Equals(Shape.None))
         {
@@ -81,7 +83,7 @@
                 <br>
                 <br>
                 <div class="endButtons">
-                    <a href="../" ><button class="btn btn-warning goBackButton">Go Back</button></a>
+                    <a href="../" @onclick="SaveGameStateIfPossible"><button class="btn btn-warning goBackButton">Go Back</button></a>
                     <div class="divider"></div>
                     <button class="btn btn-danger playAgainButton" @onclick="RefreshPage">Play Again</button>
                 </div>

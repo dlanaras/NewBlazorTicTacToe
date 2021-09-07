@@ -24,7 +24,7 @@ namespace TicTacToeProject.Pages
 
         private bool playerStartsFirst;
 
-        private bool gameHasStarted = false;
+        private bool gameHasStarted = false; //TODO: this might need to be included
 
         public Shape[,] GameMatrix
         {
@@ -40,7 +40,7 @@ namespace TicTacToeProject.Pages
         {
             get => this.winMessage;
 
-            set 
+            set
             {
                 this.winMessage = value;
             }
@@ -55,25 +55,25 @@ namespace TicTacToeProject.Pages
 
         public void SetWinMessage()
         {
-                if (tictactoe.WinMessage.Equals("win"))
-                {
-                    ScoreTrackerService.Wins++;
-                    this.WinMessage = "You Won!";
-                }
-                else if (tictactoe.WinMessage.Equals("loss"))
-                {
-                    ScoreTrackerService.Losses++;
-                    this.WinMessage = "AI Won!";
-                }
-                else if (tictactoe.WinMessage.Equals("tie"))
-                {
-                    ScoreTrackerService.Ties++;
-                    this.WinMessage = "Game ended in a tie 👔";
-                }
-                else
-                {
-                    this.WinMessage = String.Empty;
-                }
+            if (tictactoe.WinMessage.Equals("win"))
+            {
+                ScoreTrackerService.Wins++;
+                this.WinMessage = "You Won!";
+            }
+            else if (tictactoe.WinMessage.Equals("loss"))
+            {
+                ScoreTrackerService.Losses++;
+                this.WinMessage = "AI Won!";
+            }
+            else if (tictactoe.WinMessage.Equals("tie"))
+            {
+                ScoreTrackerService.Ties++;
+                this.WinMessage = "Game ended in a tie 👔";
+            }
+            else
+            {
+                this.WinMessage = String.Empty;
+            }
         }
 
         protected override void OnInitialized()
@@ -114,6 +114,34 @@ namespace TicTacToeProject.Pages
             tictactoe.TicTacToeRunTime();
         }
 
+        public void SaveGameStateIfPossible()
+        {
+            if (WinMessage.Equals(String.Empty))
+            {
+                GameStateService.SaveGameState
+                (
+                    new TicTacToeGame
+                    (
+                        tictactoe.PlayerHasPlacedAShape,
+                        tictactoe.PlayerChosenShape,
+                        tictactoe.AiChosenShape,
+                        tictactoe.SaveUserPlacements,
+                        tictactoe.SaveAiPlacements,
+                        this.GameMatrix
+                    )
+                );
+            }
+            // testing
+            /*
+            TicTacToeGame ttt = GameStateService.AcquireGameState();
+            Console.WriteLine(ttt.PlayerHasPlacedAShape);
+            Console.WriteLine(ttt.PlayerChosenShape);
+            Console.WriteLine(ttt.AiChosenShape);
+            Console.WriteLine(ttt.SaveUserPlacements);s
+            Console.WriteLine(ttt.SaveAiPlacements);
+            Console.WriteLine(ttt.GameMatrix);
+            */
+        }
     }
 
 }
