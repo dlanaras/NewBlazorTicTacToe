@@ -1,6 +1,5 @@
 @page "/tictactoe"
 @inject NavigationManager uriHelper;
-@inject GameMatrixService gms;
 
 
 
@@ -40,9 +39,36 @@ else
         }
         <p>Click on one of the squares and then click on the confirm button</p> <br>
 
-        <PrintGameMatrix 
-            GameMatrix="@gms.GameMatrix"
-        />
+        @for (int y = 0; y < 3; y++)
+        {
+
+            for (int x = 0; x < 3; x++)
+            {
+                switch (GameMatrix[y, x])
+                {
+                    case Shape.Cross:
+                        <button class="equalButton" disabled><img class="shape" width="64"
+            src="https://upload.wikimedia.org/wikipedia/commons/f/f8/X_G.png"></button>
+                        break;
+                    case Shape.Circle:
+                        <button class="equalButton" disabled><img class="shape" width="64"
+            src="https://www.vhv.rs/file/max/20/201990_red-circle-png.png"></button>
+                        break;
+                    case Shape.None:
+                        var i = x;
+                        var j = y;
+                        @*Vars above are needed since the lambda function below only uses the last index of x and y instead of the current
+                            one (3, 3) instead of (0, 0), (0, 1), (0, 2)...*@
+                        int currentPos = j * 3 + i;
+                        <button class="equalButton" @onclick="@(() => SetGivenPos(@currentPos))"><img class="shape" width="64"
+            src="https://pixy.org/src/474/thumbs350/4742987.jpg"></button>
+                        break;
+                }
+            }
+
+            <br>
+        }
+        
 
         @if (tictactoe.IsPositionAvailablePlayer())
         {
