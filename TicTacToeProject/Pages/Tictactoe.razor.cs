@@ -80,16 +80,13 @@ namespace TicTacToeProject.Pages
             if (!this.playerStartsFirst)
             {
                 tictactoe.AiTurn();
-                tictactoe.CheckForEndOfGame();
             }
 
         }
 
         public void NextTurn()
         {
-
-                tictactoe.TicTacToeRunTime();
-
+            tictactoe.TicTacToeRunTime();
         }
     }
 

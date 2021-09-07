@@ -214,7 +214,7 @@ public class TicTacToeGame
     public void TicTacToeRunTime()
     {
 
-        if (FindOutWhoWon().Equals("noone") || (!this.AvailablePos().Count.Equals(0)))
+        if (FindOutWhoWon().Equals("noone") && (!this.AvailablePos().Count.Equals(0)))
         {
             this.PlayerTurn();
             this.CheckForEndOfGame();
@@ -223,7 +223,11 @@ public class TicTacToeGame
                 this.AiTurn();
                 this.CheckForEndOfGame();
             }
-
+        }
+        else if (this.AvailablePos().Count.Equals(0))
+        {
+            Console.WriteLine("(Main) availablepos = 0");
+            this.WinMessage = "Game ended in a tie 👔";
         }
         Console.Write("Game ended");
     }
@@ -241,7 +245,8 @@ public class TicTacToeGame
         }
         else
         {
-            winMessage = "Game ended in a tie 👔";
+            Console.WriteLine("(Ai) availablepos = 0");
+            this.WinMessage = "Game ended in a tie 👔";
         }
     }
 
@@ -257,7 +262,8 @@ public class TicTacToeGame
         }
         else
         {
-            winMessage = "Game ended in a tie 👔";
+            Console.WriteLine("(Player) availablepos = 0");
+            this.WinMessage = "Game ended in a tie 👔";
         }
     }
 
