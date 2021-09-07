@@ -30,6 +30,18 @@ input {
     color: rgba(255, 0, 0, 0.5);
 }
 
+.wins{
+    font-size: 2.5rem;
+}
+
+.losses{
+    font-size: 2.5rem;
+}
+
+.ties{
+    font-size: 2.5rem;
+}
+
 .winMessage {
     font-size: 1.6rem;
     color: rgb(33, 211, 33);
@@ -48,6 +60,7 @@ input {
 .equalButton {
     padding: 10px;
 }
+
 
 .center {
     position: relative;

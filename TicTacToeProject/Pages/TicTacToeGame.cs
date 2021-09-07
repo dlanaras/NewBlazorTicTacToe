@@ -226,7 +226,7 @@ public class TicTacToeGame
         }
         else if (this.AvailablePos().Count.Equals(0))
         {
-            this.WinMessage = "Game ended in a tie 👔";
+            this.WinMessage = "tie";
         }
 
     }
@@ -244,7 +244,7 @@ public class TicTacToeGame
         }
         else
         {
-            this.WinMessage = "Game ended in a tie 👔";
+            this.WinMessage = "tie";
         }
     }
 
@@ -260,7 +260,7 @@ public class TicTacToeGame
         }
         else
         {
-            this.WinMessage = "Game ended in a tie 👔";
+            this.WinMessage = "tie";
         }
     }
 
@@ -296,11 +296,11 @@ public class TicTacToeGame
     {
         if (FindOutWhoWon().Equals("player"))
         {
-            winMessage = "You won!";
+            winMessage = "win";
         }
         else if (FindOutWhoWon().Equals("ai"))
         {
-            winMessage = "The AI won!";
+            winMessage = "loss";
         }
     }
 

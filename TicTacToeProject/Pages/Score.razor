@@ -1,0 +1,5 @@
+@inject ScoreTrackerService ScoreTrackerService;
+
+<div>
+    <p>You have won: <span class="bg-success wins">@ScoreTrackerService.Wins</span> Tic-Tac-Toe rounds, <br> lost <span class="bg-danger losses">@ScoreTrackerService.Losses</span> rounds and gotten <span class="bg-warning ties">@ScoreTrackerService.Ties</span> ties</p>
+</div>

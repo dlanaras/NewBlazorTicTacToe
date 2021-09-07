@@ -20,6 +20,8 @@ namespace TicTacToeProject.Pages
     {
         public TicTacToeGame tictactoe;
 
+        private string winMessage = "";
+
         private bool playerStartsFirst;
 
         private bool gameHasStarted = false;
@@ -36,12 +38,14 @@ namespace TicTacToeProject.Pages
 
         public string WinMessage
         {
-            get => tictactoe.WinMessage;
+            get => this.winMessage;
 
-            set
+            set 
             {
-                tictactoe.WinMessage = value;
+                this.winMessage = value;
             }
+
+
         }
 
         public void RefreshPage()
@@ -49,9 +53,27 @@ namespace TicTacToeProject.Pages
             uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
         }
 
-        public void SetLocalStorage()
+        public void SetWinMessage()
         {
-            
+                if (tictactoe.WinMessage.Equals("win"))
+                {
+                    ScoreTrackerService.Wins++;
+                    this.WinMessage = "You Won!";
+                }
+                else if (tictactoe.WinMessage.Equals("loss"))
+                {
+                    ScoreTrackerService.Losses++;
+                    this.WinMessage = "AI Won!";
+                }
+                else if (tictactoe.WinMessage.Equals("tie"))
+                {
+                    ScoreTrackerService.Ties++;
+                    this.WinMessage = "Game ended in a tie 👔";
+                }
+                else
+                {
+                    this.WinMessage = String.Empty;
+                }
         }
 
         protected override void OnInitialized()
@@ -85,7 +107,6 @@ namespace TicTacToeProject.Pages
             {
                 tictactoe.AiTurn();
             }
-
         }
 
         public void NextTurn()

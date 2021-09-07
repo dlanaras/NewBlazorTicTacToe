@@ -1,5 +1,6 @@
 @page "/tictactoe";
 @inject NavigationManager uriHelper;
+@inject ScoreTrackerService ScoreTrackerService;
 
 <div class="centerer">
     <div class="toBeCentered">
@@ -22,12 +23,11 @@
         }
         else
         {
-
+                this.SetWinMessage();
                 @if (!WinMessage.Equals(String.Empty))
                 {
-
-                        <p class="alert alert-success winMessage">@WinMessage</p>
-
+                    <p class="alert alert-success winMessage">@WinMessage</p>
+                    <Score/>
                     
                 }
 
@@ -81,7 +81,7 @@
                 <br>
                 <br>
                 <div class="endButtons">
-                    <a href="../" @onclick="SetLocalStorage"><button class="btn btn-warning goBackButton">Go Back</button></a>
+                    <a href="../" ><button class="btn btn-warning goBackButton">Go Back</button></a>
                     <div class="divider"></div>
                     <button class="btn btn-danger playAgainButton" @onclick="RefreshPage">Play Again</button>
                 </div>
