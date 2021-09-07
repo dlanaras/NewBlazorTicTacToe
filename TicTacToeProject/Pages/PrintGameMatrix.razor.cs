@@ -18,17 +18,13 @@ namespace TicTacToeProject.Pages
 {
     public partial class PrintGameMatrix
     {
-        private Tictactoe tictactoe;
-        [Parameter]
-        public Shape[, ] GameMatrix { get; set; }
 
-        protected override void OnInitialized()
-        {
-            tictactoe = new Tictactoe();
-        }
+        [Parameter]
+        public Shape[,] GameMatrix { get; set; }
+
         private void SetGivenPos(int givenPos)
         {
-            tictactoe.SetGivenPos(givenPos);
+            gms.GivenPos = givenPos;
         }
     }
 }

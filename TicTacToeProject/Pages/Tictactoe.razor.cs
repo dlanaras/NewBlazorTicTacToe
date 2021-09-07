@@ -63,10 +63,11 @@ namespace TicTacToeProject.Pages
             tictactoe.AiChosenShape = Shape.Cross;
         }
 
-        public void SetGivenPos(int givenPos)
+        /*public void SetGivenPos(int givenPos)
         {
             tictactoe.PositionToPlaceShape = givenPos;
-        }
+            gms.GameMatrix = this.GameMatrix;
+        }*/
     }
 
 }

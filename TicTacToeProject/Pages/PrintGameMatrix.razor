@@ -1,3 +1,5 @@
+        @inject GameMatrixService gms;
+        
         @for (int y = 0; y < 3; y++)
         {
 
@@ -21,7 +23,7 @@
                         int currentPos = j * 3 + i;
                         <button class="equalButton" @onclick="@(() => SetGivenPos(@currentPos))"><img class="shape" width="64"
             src="https://pixy.org/src/474/thumbs350/4742987.jpg"></button>
-                        break; 
+                        break;
                 }
             }
 

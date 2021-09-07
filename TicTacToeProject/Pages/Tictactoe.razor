@@ -1,5 +1,6 @@
 @page "/tictactoe"
 @inject NavigationManager uriHelper;
+@inject GameMatrixService gms;
 
 
 
@@ -40,7 +41,7 @@ else
         <p>Click on one of the squares and then click on the confirm button</p> <br>
 
         <PrintGameMatrix 
-        GameMatrix="@GameMatrix"
+            GameMatrix="@gms.GameMatrix"
         />
 
         @if (tictactoe.IsPositionAvailablePlayer())
