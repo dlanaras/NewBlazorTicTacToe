@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System;
 
-
 public class TicTacToeGame
 {
     private string winMessage = String.Empty;
 
+    private bool playerHasPlacedAShape = false;
     private Shape playerChosenShape = Shape.None;
 
     private Shape aiChosenShape;
@@ -16,11 +16,21 @@ public class TicTacToeGame
 
     private bool playerStarts;
 
-    public bool PlayerStarts 
+    public bool PlayerHasPlacedAShape
+    {
+        get => this.playerHasPlacedAShape;
+
+        set
+        {
+            this.playerHasPlacedAShape = value;
+        }
+    }
+
+    public bool PlayerStarts
     {
         get => this.playerStarts;
 
-        set 
+        set
         {
             this.playerStarts = value;
         }
@@ -53,7 +63,7 @@ public class TicTacToeGame
 {Shape.None, Shape.None, Shape.None}
     };
 
-    private int positionToPlaceShape = 9;
+    private int positionToPlaceShape;
 
     public int PositionToPlaceShape
     {
@@ -87,6 +97,7 @@ public class TicTacToeGame
     public void SetGivenPos(int givenPos)
     {
         this.PositionToPlaceShape = givenPos;
+
     }
 
     public bool WhoStarts()
@@ -198,33 +209,28 @@ public class TicTacToeGame
         this.PositionToPlaceShape = randMove;
         this.PlaceShapeOnGivenPos(this.AiChosenShape);
 
-        //this.PlaceShapeAccordingToRow(this.AiChosenShape, randMove);
     }
 
     public void TicTacToeRunTime()
     {
-        if (this.AvailablePos().Count.Equals(0))
+
+        if (FindOutWhoWon().Equals("noone") || (!this.AvailablePos().Count.Equals(0)))
         {
-            winMessage = "Game ended in a tie 👔";
-        }
-        else if (FindOutWhoWon().Equals("noone"))
-        {
-            if (!this.AvailablePos().Count.Equals(0))
+            this.PlayerTurn();
+            this.CheckForEndOfGame();
+            if (FindOutWhoWon().Equals("noone"))
             {
-                this.PlayerTurn();
+                this.AiTurn();
                 this.CheckForEndOfGame();
-                if (FindOutWhoWon().Equals("noone"))
-                {
-                    this.AiTurn();
-                    this.CheckForEndOfGame();
-                }
             }
+
         }
+        Console.Write("Game ended");
     }
 
 
 
-    private void AiTurn()
+    public void AiTurn()
     {
         if (!this.AvailablePos().Count.Equals(0))
         {

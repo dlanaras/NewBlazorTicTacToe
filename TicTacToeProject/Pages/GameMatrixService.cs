@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 public class GameMatrixService
 {
 
+    //TODO: alter this to be whole game
+
     private int givenPos;
 
     private Shape[,] gameMatrix;

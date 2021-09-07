@@ -20,6 +20,10 @@ namespace TicTacToeProject.Pages
     {
         public TicTacToeGame tictactoe;
 
+        private bool playerStartsFirst;
+
+        private bool gameHasStarted = false;
+
         public Shape[,] GameMatrix
         {
             get => tictactoe.GameMatrix;
@@ -30,7 +34,7 @@ namespace TicTacToeProject.Pages
             }
         }
 
-        public string WinMessage 
+        public string WinMessage
         {
             get => tictactoe.WinMessage;
 
@@ -66,6 +70,26 @@ namespace TicTacToeProject.Pages
         public void SetGivenPos(int givenPos)
         {
             tictactoe.PositionToPlaceShape = givenPos;
+            tictactoe.PlayerHasPlacedAShape = true;
+        }
+
+        public void StartGame()
+        {
+            this.playerStartsFirst = tictactoe.WhoStarts();
+            this.gameHasStarted = true;
+            if (!this.playerStartsFirst)
+            {
+                tictactoe.AiTurn();
+                tictactoe.CheckForEndOfGame();
+            }
+
+        }
+
+        public void NextTurn()
+        {
+
+                tictactoe.TicTacToeRunTime();
+
         }
     }
 
