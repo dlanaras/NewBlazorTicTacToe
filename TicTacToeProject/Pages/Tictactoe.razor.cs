@@ -18,21 +18,34 @@ namespace TicTacToeProject.Pages
 {
     public partial class Tictactoe
     {
-        public TicTacToeGame tictactoe;
+
+        private TicTacToeGame tictactoegame;
+
+        [Parameter]
+        public TicTacToeGame Tictactoegame
+        {
+            get => this.tictactoegame;
+
+            set
+            {
+                this.tictactoegame = value;
+                this.gameHasStarted = true;
+            }
+        }
 
         private string winMessage = "";
 
         private bool playerStartsFirst;
 
-        private bool gameHasStarted = false; //TODO: this might need to be included
+        private bool gameHasStarted = false;
 
         public Shape[,] GameMatrix
         {
-            get => tictactoe.GameMatrix;
+            get => tictactoegame.GameMatrix;
 
             set
             {
-                tictactoe.GameMatrix = value;
+                tictactoegame.GameMatrix = value;
             }
         }
 
@@ -55,17 +68,17 @@ namespace TicTacToeProject.Pages
 
         public void SetWinMessage()
         {
-            if (tictactoe.WinMessage.Equals("win"))
+            if (tictactoegame.WinMessage.Equals("win"))
             {
                 ScoreTrackerService.Wins++;
                 this.WinMessage = "You Won!";
             }
-            else if (tictactoe.WinMessage.Equals("loss"))
+            else if (tictactoegame.WinMessage.Equals("loss"))
             {
                 ScoreTrackerService.Losses++;
                 this.WinMessage = "AI Won!";
             }
-            else if (tictactoe.WinMessage.Equals("tie"))
+            else if (tictactoegame.WinMessage.Equals("tie"))
             {
                 ScoreTrackerService.Ties++;
                 this.WinMessage = "Game ended in a tie 👔";
@@ -78,55 +91,55 @@ namespace TicTacToeProject.Pages
 
         protected override void OnInitialized()
         {
-            tictactoe = new TicTacToeGame();
+            tictactoegame = new TicTacToeGame();
         }
 
         private void ChooseCross()
         {
-            tictactoe.PlayerChosenShape = Shape.Cross;
-            tictactoe.AiChosenShape = Shape.Circle;
+            tictactoegame.PlayerChosenShape = Shape.Cross;
+            tictactoegame.AiChosenShape = Shape.Circle;
         }
 
         private void ChooseCircle()
         {
-            tictactoe.PlayerChosenShape = Shape.Circle;
-            tictactoe.AiChosenShape = Shape.Cross;
+            tictactoegame.PlayerChosenShape = Shape.Circle;
+            tictactoegame.AiChosenShape = Shape.Cross;
         }
 
         public void SetGivenPos(int givenPos)
         {
-            tictactoe.PositionToPlaceShape = givenPos;
-            tictactoe.PlayerHasPlacedAShape = true;
+            tictactoegame.PositionToPlaceShape = givenPos;
+            tictactoegame.PlayerHasPlacedAShape = true;
         }
 
         public void StartGame()
         {
-            this.playerStartsFirst = tictactoe.WhoStarts();
+            this.playerStartsFirst = tictactoegame.WhoStarts();
             this.gameHasStarted = true;
             if (!this.playerStartsFirst)
             {
-                tictactoe.AiTurn();
+                tictactoegame.AiTurn();
             }
         }
 
         public void NextTurn()
         {
-            tictactoe.TicTacToeRunTime();
+            tictactoegame.TicTacToeRunTime();
         }
 
         public void SaveGameStateIfPossible()
         {
-            if (WinMessage.Equals(String.Empty) && this.gameHasStarted)
+            if (WinMessage.Equals(String.Empty))
             {
                 GameStateService.SaveGameState
                 (
                     new TicTacToeGame
                     (
-                        tictactoe.PlayerHasPlacedAShape,
-                        tictactoe.PlayerChosenShape,
-                        tictactoe.AiChosenShape,
-                        tictactoe.SaveUserPlacements,
-                        tictactoe.SaveAiPlacements,
+                        tictactoegame.PlayerHasPlacedAShape,
+                        tictactoegame.PlayerChosenShape,
+                        tictactoegame.AiChosenShape,
+                        tictactoegame.SaveUserPlacements,
+                        tictactoegame.SaveAiPlacements,
                         this.GameMatrix
                     )
                 );

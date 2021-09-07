@@ -5,11 +5,9 @@
 
 <div class="centerer">
     <div class="toBeCentered">
-        @*TODO: Check if there is an unfinished game and then ask user to resume it or start a new one and discard the old one (to display it check if object is null or not)*@
 
-        @if (tictactoe.PlayerChosenShape.Equals(Shape.None))
+        @if (Tictactoegame.PlayerChosenShape.Equals(Shape.None))
         {
-
             <h1>Ready to tic tac toe?</h1>
 
             <p>Then choose a shape</p>
@@ -75,7 +73,7 @@
 
                 <br>
 
-                @if (tictactoe.IsPositionAvailablePlayer() && gameHasStarted)
+                @if (Tictactoegame.IsPositionAvailablePlayer() && gameHasStarted)
                 {
                     <button class="btn-primary" @onclick="NextTurn">Confirm</button>
                 } 
