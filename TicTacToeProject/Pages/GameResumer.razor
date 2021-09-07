@@ -1,0 +1,26 @@
+@inject GameStateService GameStateService;
+@try
+{
+    if (!GameStateService.AcquireGameState().Equals(null))
+    {
+        <p>You have an unfinished Game, want to start a new Game or resume it?</p>
+        <button class="btn btn-success" @onclick="Resume">Resume</button>
+        <button class="btn btn-success" @onclick="NewGame">New Game</button>
+    }
+}
+catch (System.NullReferenceException)
+{
+
+}
+
+@code {
+    public void Resume()
+    {
+        //TODO: implement currrentstate tictactoe values into current object and then switch to Tictactoe.razor
+    }
+
+    public void NewGame()
+    {
+        GameStateService.RemoveGameState();
+    }
+}

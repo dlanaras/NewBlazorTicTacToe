@@ -116,7 +116,7 @@ namespace TicTacToeProject.Pages
 
         public void SaveGameStateIfPossible()
         {
-            if (WinMessage.Equals(String.Empty))
+            if (WinMessage.Equals(String.Empty) && this.gameHasStarted)
             {
                 GameStateService.SaveGameState
                 (
@@ -130,17 +130,21 @@ namespace TicTacToeProject.Pages
                         this.GameMatrix
                     )
                 );
+                // testing
+                /*
+                TicTacToeGame ttt = GameStateService.AcquireGameState();
+                Console.WriteLine(ttt.PlayerHasPlacedAShape);
+                Console.WriteLine(ttt.PlayerChosenShape);
+                Console.WriteLine(ttt.AiChosenShape);
+                Console.WriteLine(ttt.SaveUserPlacements);
+                Console.WriteLine(ttt.SaveAiPlacements);
+                Console.WriteLine(ttt.GameMatrix);
+                */
             }
-            // testing
-            /*
-            TicTacToeGame ttt = GameStateService.AcquireGameState();
-            Console.WriteLine(ttt.PlayerHasPlacedAShape);
-            Console.WriteLine(ttt.PlayerChosenShape);
-            Console.WriteLine(ttt.AiChosenShape);
-            Console.WriteLine(ttt.SaveUserPlacements);s
-            Console.WriteLine(ttt.SaveAiPlacements);
-            Console.WriteLine(ttt.GameMatrix);
-            */
+
+
+
+
         }
     }
 

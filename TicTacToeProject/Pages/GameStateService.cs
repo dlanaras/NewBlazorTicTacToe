@@ -1,6 +1,6 @@
 using System;
 
-public class GameStateService 
+public class GameStateService
 {
 
     private TicTacToeGame tictactoe;
@@ -22,11 +22,8 @@ public class GameStateService
 
     public TicTacToeGame AcquireGameState()
     {
-        if(!this.tictactoe.Equals(null))
-        {
+        //TODO: try catch for null reference exception
         return this.tictactoe;
-        }
-        throw new Exception("This is only temporary, will add a custom exception");
     }
 
     public void RemoveGameState()
