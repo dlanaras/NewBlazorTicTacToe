@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace TicTacToeProject
 {
-    public class ScoreTrackerServiceTest : TestContext
+    public class ScoreTrackerServiceTests : TestContext
     {
 
         [Fact]
