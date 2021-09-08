@@ -29,13 +29,12 @@
         }
         else
         {
-                this.SetWinMessage();
-                @if (!WinMessage.Equals(String.Empty))
+                this.CheckGameEnding();
+                @if (gameHasEnded)
                 {
                     GameStateService.RemoveGameState();
                     <p class="alert alert-success winMessage">@WinMessage</p>
                     WinMessage = String.Empty;
-                    gameHasEnded = true;
                     <Score/>
                 }
 

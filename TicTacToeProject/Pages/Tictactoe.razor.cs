@@ -57,16 +57,18 @@ namespace TicTacToeProject.Pages
             uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
         }
 
-        public void SetWinMessage()
+        public void CheckGameEnding()
         {
             if (tictactoegame.WinMessage.Equals(GameEndings.win))
             {
+                gameHasEnded = true;
                 ScoreTrackerService.Wins++;
                 this.WinMessage = "You Won!";
                 tictactoegame.WinMessage = GameEndings.noEnd;
             }
             else if (tictactoegame.WinMessage.Equals(GameEndings.loss))
             {
+                gameHasEnded = true;
                 ScoreTrackerService.Losses++;
                 this.WinMessage = "AI Won!";
                 tictactoegame.WinMessage = GameEndings.noEnd;
@@ -74,6 +76,7 @@ namespace TicTacToeProject.Pages
             else if (tictactoegame.WinMessage.Equals(GameEndings.tie))
             {
                 ScoreTrackerService.Ties++;
+                gameHasEnded = true;
                 this.WinMessage = "Game ended in a tie 👔";
                 tictactoegame.WinMessage = GameEndings.noEnd;
             }
