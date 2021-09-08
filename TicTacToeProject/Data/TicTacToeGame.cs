@@ -19,7 +19,7 @@ public class TicTacToeGame
         this.GameMatrix = gameMatrix;
     }
 
-    private string winMessage = String.Empty;
+    private GameEndings winMessage = GameEndings.noEnd;
 
     private bool playerHasPlacedAShape = false;
     private Shape playerChosenShape = Shape.None;
@@ -73,7 +73,7 @@ public class TicTacToeGame
         }
     }
 
-    public string WinMessage
+    public GameEndings WinMessage
     {
         get => this.winMessage;
 
@@ -260,14 +260,14 @@ public class TicTacToeGame
                 this.AiTurn();
                 if(this.AvailablePos().Count.Equals(0))
                 {
-                    this.WinMessage = "tie";
+                    this.WinMessage = GameEndings.tie;
                 }
                 this.CheckForEndOfGame();
             }
         }
         else if (this.AvailablePos().Count.Equals(0))
         {
-            this.WinMessage = "tie";
+            this.WinMessage = GameEndings.tie;
         }
 
     }
@@ -285,7 +285,7 @@ public class TicTacToeGame
         }
         else
         {
-            this.WinMessage = "tie";
+            this.WinMessage = GameEndings.tie;
         }
     }
 
@@ -301,7 +301,7 @@ public class TicTacToeGame
         }
         else
         {
-            this.WinMessage = "tie";
+            this.WinMessage = GameEndings.tie;
         }
     }
 
@@ -337,11 +337,11 @@ public class TicTacToeGame
     {
         if (FindOutWhoWon().Equals("player"))
         {
-            winMessage = "win";
+            winMessage = GameEndings.win;
         }
         else if (FindOutWhoWon().Equals("ai"))
         {
-            winMessage = "loss";
+            winMessage = GameEndings.loss;
         }
     }
 

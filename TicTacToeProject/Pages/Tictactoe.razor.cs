@@ -59,23 +59,23 @@ namespace TicTacToeProject.Pages
 
         public void SetWinMessage()
         {
-            if (tictactoegame.WinMessage.Equals("win"))
+            if (tictactoegame.WinMessage.Equals(GameEndings.win))
             {
                 ScoreTrackerService.Wins++;
                 this.WinMessage = "You Won!";
-                tictactoegame.WinMessage = String.Empty;
+                tictactoegame.WinMessage = GameEndings.noEnd;
             }
-            else if (tictactoegame.WinMessage.Equals("loss"))
+            else if (tictactoegame.WinMessage.Equals(GameEndings.loss))
             {
                 ScoreTrackerService.Losses++;
                 this.WinMessage = "AI Won!";
-                tictactoegame.WinMessage = String.Empty;
+                tictactoegame.WinMessage = GameEndings.noEnd;
             }
-            else if (tictactoegame.WinMessage.Equals("tie"))
+            else if (tictactoegame.WinMessage.Equals(GameEndings.tie))
             {
                 ScoreTrackerService.Ties++;
                 this.WinMessage = "Game ended in a tie 👔";
-                tictactoegame.WinMessage = String.Empty;
+                tictactoegame.WinMessage = GameEndings.noEnd;
             }
             else
             {
