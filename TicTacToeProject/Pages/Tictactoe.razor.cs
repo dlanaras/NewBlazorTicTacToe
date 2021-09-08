@@ -27,6 +27,8 @@ namespace TicTacToeProject.Pages
 
         private bool gameHasStarted = false;
 
+        private bool gameHasEnded = false;
+
         public Shape[,] GameMatrix
         {
             get => tictactoegame.GameMatrix;
@@ -51,7 +53,7 @@ namespace TicTacToeProject.Pages
 
         public void RefreshPageAndDeleteState()
         {
-            GameStateService.RemoveGameState();    
+            GameStateService.RemoveGameState();
             uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
         }
 
@@ -61,16 +63,19 @@ namespace TicTacToeProject.Pages
             {
                 ScoreTrackerService.Wins++;
                 this.WinMessage = "You Won!";
+                tictactoegame.WinMessage = String.Empty;
             }
             else if (tictactoegame.WinMessage.Equals("loss"))
             {
                 ScoreTrackerService.Losses++;
                 this.WinMessage = "AI Won!";
+                tictactoegame.WinMessage = String.Empty;
             }
             else if (tictactoegame.WinMessage.Equals("tie"))
             {
                 ScoreTrackerService.Ties++;
                 this.WinMessage = "Game ended in a tie 👔";
+                tictactoegame.WinMessage = String.Empty;
             }
             else
             {
@@ -118,7 +123,7 @@ namespace TicTacToeProject.Pages
 
         public void SaveGameStateIfPossible()
         {
-            if (WinMessage.Equals(String.Empty) && this.gameHasStarted)
+            if (WinMessage.Equals(String.Empty) && this.gameHasStarted && (!gameHasEnded))
             {
                 GameStateService.SaveGameState
                 (

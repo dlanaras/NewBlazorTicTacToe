@@ -20,13 +20,13 @@ namespace TicTacToeProject.Pages
     {
         public void Resume()
         {
-            uriHelper.NavigateTo("tictactoe", forceLoad: true);
+            uriHelper.NavigateTo("tictactoe");
         }
 
         public void NewGame()
         {
             GameStateService.RemoveGameState();
-            uriHelper.NavigateTo("tictactoe", forceLoad: true);
+            uriHelper.NavigateTo("tictactoe");
         }
     }
 }
