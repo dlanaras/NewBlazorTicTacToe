@@ -258,6 +258,10 @@ public class TicTacToeGame
             if (FindOutWhoWon().Equals("noone"))
             {
                 this.AiTurn();
+                if(this.AvailablePos().Count.Equals(0))
+                {
+                    this.WinMessage = "tie";
+                }
                 this.CheckForEndOfGame();
             }
         }
