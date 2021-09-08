@@ -18,18 +18,15 @@ namespace TicTacToeProject.Pages
 {
     public partial class GameResumer
     {
-        private bool shouldBeResumed = false;
-
-        private TicTacToeGame tictactoe;
         public void Resume()
         {
-            tictactoe = GameStateService.AcquireGameState();
-            shouldBeResumed = true;
+            uriHelper.NavigateTo("tictactoe", forceLoad: true);
         }
 
         public void NewGame()
         {
             GameStateService.RemoveGameState();
+            uriHelper.NavigateTo("tictactoe", forceLoad: true);
         }
     }
 }

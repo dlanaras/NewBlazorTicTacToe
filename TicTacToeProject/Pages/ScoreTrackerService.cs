@@ -14,7 +14,6 @@ public class ScoreTrackerService
 
     private int losses;
 
-    private int givenPos;
 
     public int Ties
     {

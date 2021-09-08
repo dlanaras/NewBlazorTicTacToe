@@ -22,7 +22,6 @@ public class GameStateService
 
     public TicTacToeGame AcquireGameState()
     {
-        //TODO: try catch for null reference exception
         return this.tictactoe;
     }
 

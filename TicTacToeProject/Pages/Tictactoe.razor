@@ -6,7 +6,13 @@
 <div class="centerer">
     <div class="toBeCentered">
 
-        @if (Tictactoegame.PlayerChosenShape.Equals(Shape.None))
+        @if(GameStateService.AcquireGameState() != null)
+        {
+            this.tictactoegame = GameStateService.AcquireGameState();
+            this.gameHasStarted = true;
+        }
+
+        @if (tictactoegame.PlayerChosenShape.Equals(Shape.None))
         {
             <h1>Ready to tic tac toe?</h1>
 
@@ -28,7 +34,8 @@
                 {
                     <p class="alert alert-success winMessage">@WinMessage</p>
                     <Score/>
-                    
+                    GameStateService.RemoveGameState();
+                    WinMessage = String.Empty;
                 }
 
 
@@ -73,7 +80,7 @@
 
                 <br>
 
-                @if (Tictactoegame.IsPositionAvailablePlayer() && gameHasStarted)
+                @if (tictactoegame.IsPositionAvailablePlayer() && gameHasStarted)
                 {
                     <button class="btn-primary" @onclick="NextTurn">Confirm</button>
                 } 
@@ -83,7 +90,7 @@
                 <div class="endButtons">
                     <a href="../" @onclick="SaveGameStateIfPossible"><button class="btn btn-warning goBackButton">Go Back</button></a>
                     <div class="divider"></div>
-                    <button class="btn btn-danger playAgainButton" @onclick="RefreshPage">Play Again</button>
+                    <button class="btn btn-danger playAgainButton" @onclick="RefreshPageAndDeleteState">Play Again</button>
                 </div>
         }
     </div>

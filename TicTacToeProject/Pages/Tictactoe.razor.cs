@@ -21,18 +21,6 @@ namespace TicTacToeProject.Pages
 
         private TicTacToeGame tictactoegame;
 
-        [Parameter]
-        public TicTacToeGame Tictactoegame
-        {
-            get => this.tictactoegame;
-
-            set
-            {
-                this.tictactoegame = value;
-                this.gameHasStarted = true;
-            }
-        }
-
         private string winMessage = "";
 
         private bool playerStartsFirst;
@@ -61,8 +49,9 @@ namespace TicTacToeProject.Pages
 
         }
 
-        public void RefreshPage()
+        public void RefreshPageAndDeleteState()
         {
+            GameStateService.RemoveGameState();    
             uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
         }
 
@@ -129,7 +118,7 @@ namespace TicTacToeProject.Pages
 
         public void SaveGameStateIfPossible()
         {
-            if (WinMessage.Equals(String.Empty))
+            if (WinMessage.Equals(String.Empty) && this.gameHasStarted)
             {
                 GameStateService.SaveGameState
                 (
@@ -143,21 +132,7 @@ namespace TicTacToeProject.Pages
                         this.GameMatrix
                     )
                 );
-                // testing
-                /*
-                TicTacToeGame ttt = GameStateService.AcquireGameState();
-                Console.WriteLine(ttt.PlayerHasPlacedAShape);
-                Console.WriteLine(ttt.PlayerChosenShape);
-                Console.WriteLine(ttt.AiChosenShape);
-                Console.WriteLine(ttt.SaveUserPlacements);
-                Console.WriteLine(ttt.SaveAiPlacements);
-                Console.WriteLine(ttt.GameMatrix);
-                */
             }
-
-
-
-
         }
     }
 
